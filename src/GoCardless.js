@@ -66,7 +66,7 @@ export default class GoCardless {
         return goCardlessRequest(options);
     }
 
-    startRedirectFlow(description, sessionId, succesRedirectUrl) {
+    startRedirectFlow(description, sessionId, succesRedirectUrl, customer) {
         const body = {
             redirect_flows: {
                 description,
@@ -74,6 +74,9 @@ export default class GoCardless {
                 success_redirect_url: succesRedirectUrl
             }
         };
+        if (customer) {
+            body.redirect_flows.prefilled_customer = customer;
+        }
         const path = '/redirect_flows';
         const options = buildOptions(this.token, this.endPoint, path, 'POST', body);
         return goCardlessRedirectRequest(options);
